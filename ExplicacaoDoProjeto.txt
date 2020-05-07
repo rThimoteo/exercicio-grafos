@@ -1,41 +1,26 @@
-Salvador, BA 13 de fevereiro de 2014
-
-
-Universidade Federal da Bahia
-Instituto de Matem·tica
-Departamento de CiÍncia da ComputaÁ„o
-Autores: M·rio Augusto Mota Martins
-	 Caio Araujo Neponoceno de Lima
-
-
-RelatÛrio de ImplementaÁ„o de Algoritmos e suas Complexidades
-
-
-IntroduÁ„o
-     	
-        	Este trabalho consiste em apresentar 7 algoritmos que operam sobre estruturas de dados conhecidas como grafos. Para cada algoritmo, iremos apresentar uma breve descriÁ„o sobre o mesmo, uma an·lise de sua complexidade e detalhes da implementaÁ„o. Os algoritmos implementados foram:
+Este trabalho apresenta 7 algoritmos que operam sobre estruturas de dados conhecidas como grafos. Para cada algoritmo, iremos apresentar uma breve descri√ß√£o sobre o mesmo, uma an√°lise de sua complexidade e detalhes da implementa√ß√£o. Os algoritmos implementados foram:
  
 1.    Algoritmo de Kruskal;
 2.    Algoritmo de Dijkstra;
 3.    Busca em Largura;
 4.    Busca em Profundidade;
-5.    OrdenaÁ„o topologica;
+5.    Ordena√ß√£o topologica;
 6.    Fecho transitivo;
 7.    Algoritmo de Warshall;
 
--O projeto foi feito em java atravÈs da IDE Eclipse. Consta de 3 pacotes:
+-O projeto foi feito em java atrav√©s da IDE Eclipse. Consta de 3 pacotes:
 
 	1 com os algoritmos pedidos;
-	1 com as estruturas necess·rias;
-	1 com a classe de entrada e saÌda de dados para Java;
+	1 com as estruturas necess√°rias;
+	1 com a classe de entrada e sa√≠da de dados para Java;
 
 
 
 
 
--As estruturas encontradas no projeto e seus atributos s„o:
+-As estruturas encontradas no projeto e seus atributos s√£o:
 
-1∫ Vertice: 
+1¬∫ Vertice: 
 1 String nome;
 	1 String cor;
 	1 int distancia;
@@ -44,18 +29,18 @@ IntroduÁ„o
 1 Vertice pai;
 1 boolean visitado;
 
-2∫ Aresta:
+2¬∫ Aresta:
 	1 int peso;
 	2 Vertices;
 	1 boolean visitado;
 
-3∫ Grafo:
+3¬∫ Grafo:
 	1 ArrayList de Arestas;
 	1 ArrayList de Vertices;
 1 boolean hasCycle;
 
--A interaÁ„o com o projeto È em console e seu sistema de entrada e saÌda funciona da seguinte forma:
->O projeto tem um menu b·sico inicial que informa as seguintes opÁıes auto explicativas:
+-A intera√ß√£o com o projeto √© em console e seu sistema de entrada e sa√≠da funciona da seguinte forma:
+>O projeto tem um menu b√°sico inicial que informa as seguintes op√ß√µes auto explicativas:
 "1 - Add vertices e aresta";
 "2 - Imprimir Grafo dado";
 "3 - Obter arvore de Kruskal";
@@ -67,140 +52,140 @@ IntroduÁ„o
 "9 - Obter Matriz do Algoritmo de Warshall";
 "0 - fim";
 
->Para se inserir um Grafo atravÈs da opÁ„o ì1î as ENTRADAS que devem ser dadas a partir do console sao:
+>Para se inserir um Grafo atrav√©s da op√ß√£o ‚Äú1‚Äù as ENTRADAS que devem ser dadas a partir do console sao:
 
-	1∫ Peso (int);
-	2∫ Origem (String) - Nome do primeiro vertice;
-	3∫ Destino (String) - Nome do segundo vertice;
+	1¬∫ Peso (int);
+	2¬∫ Origem (String) - Nome do primeiro vertice;
+	3¬∫ Destino (String) - Nome do segundo vertice;
 
->O retorno de impress„o do Grafo funciona da seguinte forma:
+>O retorno de impress√£o do Grafo funciona da seguinte forma:
 
 _Por Aresta:
-VÈrtice de Origem + VÈrtice de Destino + ì - ì + Peso + ì | ì;
+V√©rtice de Origem + V√©rtice de Destino + ‚Äú - ‚Äú + Peso + ‚Äú | ‚Äú;
 
-Ex.: ìab - 2 | bc - 5 | cd - 10î;
+Ex.: ‚Äúab - 2 | bc - 5 | cd - 10‚Äù;
 
-_Por VÈrtice:
-	[ verticeπ, vertice≤, vertice≥, Ö, verticen];
-			Para um grafo de ìnî vÈrtices.
+_Por V√©rtice:
+	[ vertice¬π, vertice¬≤, vertice¬≥, ‚Ä¶, verticen];
+			Para um grafo de ‚Äún‚Äù v√©rtices.
 		
-		Ex.: ì[a, b, c, d, e]î;
+		Ex.: ‚Äú[a, b, c, d, e]‚Äù;
 
--A seguir veremos as descriÁıes dos Algoritmos, as an·lises de cada complexidade e alguns detalhes da implementaÁ„o anexa a este relatÛrio.
+-A seguir veremos as descri√ß√µes dos Algoritmos, as an√°lises de cada complexidade e alguns detalhes da implementa√ß√£o anexa a este relat√≥rio.
 
 1. Algoritmo de Kruskal
 	
-	O Algoritmo de Kruskal, que È um exemplo de um algoritmo guloso (sempre realizando a escolha que parece ser a melhor no momento), busca uma ·rvore geradora mÌnima para um grafo conexo com pesos. Isto significa que ele encontra um subconjunto das arestas que forma uma ·rvore que inclui todos os vÈrtices, onde o peso total, dado pela soma dos pesos das arestas da ·rvore, È minimizado. Se o grafo n„o for conexo, ent„o ele encontra uma floresta geradora mÌnima (uma ·rvore geradora mÌnima para cada componente conexo do grafo).
+	O Algoritmo de Kruskal, que √© um exemplo de um algoritmo guloso (sempre realizando a escolha que parece ser a melhor no momento), busca uma √°rvore geradora m√≠nima para um grafo conexo com pesos. Isto significa que ele encontra um subconjunto das arestas que forma uma √°rvore que inclui todos os v√©rtices, onde o peso total, dado pela soma dos pesos das arestas da √°rvore, √© minimizado. Se o grafo n√£o for conexo, ent√£o ele encontra uma floresta geradora m√≠nima (uma √°rvore geradora m√≠nima para cada componente conexo do grafo).
 
 
 
 1.1 Complexidade do algoritmo
 
-A complexidade do algoritmo de Kruskal È dada da seguinte forma:
-Em um grafo com ìnî vÈrtices e ìaî arestas, o n˙mero de operaÁıes È:
-(i) O(a log a), para ordenar as arestas, que È equivalente a O(a log n);
+A complexidade do algoritmo de Kruskal √© dada da seguinte forma:
+Em um grafo com ‚Äún‚Äù v√©rtices e ‚Äúa‚Äù arestas, o n√∫mero de opera√ß√µes √©:
+(i) O(a log a), para ordenar as arestas, que √© equivalente a O(a log n);
 (ii) O(n) para inicializar os conjuntos distintos de cada componente conexa;
 (iii) No pior caso, O((2a + n - 1)lg*n) para determinar e misturar as componentes
 conexas;
-(iv) O(a) para o restante das operaÁıes.
-ï Conclui-se que o tempo total para o algoritmo de Kruskal È O (a log n)
+(iv) O(a) para o restante das opera√ß√µes.
+‚Ä¢ Conclui-se que o tempo total para o algoritmo de Kruskal √© O (a log n)
 
-1.2 Detalhes da ImplementaÁ„o
+1.2 Detalhes da Implementa√ß√£o
 
-Nossa implementaÁ„o consta de 2 mÈtodos que podem ser encontrados no arquivo src/com/estruturas/Grafo.java na linha 158:
-1∫ "menorPeso" (retorna o menor peso ainda n„o verificado da ·rvore dada);
-	2∫ "temCiclo" (retorna se inserindo determinada aresta a arvore ter· um ciclo ou n„o);
-Funciona da seguinte forma, a partir de cada interaÁ„o de uma estrutura de repetiÁ„o presente no arquivo src/com/algoritmos/Algoritmos.java na linha 48, s„o analisadas as arestas do Grafo dado por entrada e È retornada a aresta com menor peso no grafo, ainda n„o visualizada anteriormente em outra interaÁ„o da mesma estrutura de repetiÁ„o, apÛs isso È chamado um mÈtodo que verifica se adicionando essa aresta no novo grafo de resultado vai haver algum ciclo, se n„o houver a aresta È adicionada e outra interaÁ„o da estrutura de repetiÁ„o È chamada atÈ que se acabem as arestas do Grafo dado originalmente como entrada no console.
+Nossa implementa√ß√£o consta de 2 m√©todos que podem ser encontrados no arquivo src/com/estruturas/Grafo.java na linha 158:
+1¬∫ "menorPeso" (retorna o menor peso ainda n√£o verificado da √°rvore dada);
+	2¬∫ "temCiclo" (retorna se inserindo determinada aresta a arvore ter√° um ciclo ou n√£o);
+Funciona da seguinte forma, a partir de cada intera√ß√£o de uma estrutura de repeti√ß√£o presente no arquivo src/com/algoritmos/Algoritmos.java na linha 48, s√£o analisadas as arestas do Grafo dado por entrada e √© retornada a aresta com menor peso no grafo, ainda n√£o visualizada anteriormente em outra intera√ß√£o da mesma estrutura de repeti√ß√£o, ap√≥s isso √© chamado um m√©todo que verifica se adicionando essa aresta no novo grafo de resultado vai haver algum ciclo, se n√£o houver a aresta √© adicionada e outra intera√ß√£o da estrutura de repeti√ß√£o √© chamada at√© que se acabem as arestas do Grafo dado originalmente como entrada no console.
 
 2. Algoritmo de Dijkstra
 
-O Algoritmo de Dijkstra È um algoritmo tambÈm do tipo ìgulosoî que soluciona o problema do caminho mais curto entre dois vÈrtices num grafo ponderado dirigido ou n„o dirigido.
+O Algoritmo de Dijkstra √© um algoritmo tamb√©m do tipo ‚Äúguloso‚Äù que soluciona o problema do caminho mais curto entre dois v√©rtices num grafo ponderado dirigido ou n√£o dirigido.
 
 2.1 Complexidade do algoritmo
 
-Sendo |V| o n˙mero de vÈrtices do Grafo e |E| o n˙mero de Arestas temos:
-(i) InicializaÁ„o: T(V);
-(ii) Ciclo ìwhileî È executado |V| vezes;
-(ii.1) Todos os arcos do grafo s„o visitados, de vÈrtices e de arestas;
+Sendo |V| o n√∫mero de v√©rtices do Grafo e |E| o n√∫mero de Arestas temos:
+(i) Inicializa√ß√£o: T(V);
+(ii) Ciclo ‚Äúwhile‚Äù √© executado |V| vezes;
+(ii.1) Todos os arcos do grafo s√£o visitados, de v√©rtices e de arestas;
 - Total = O(V lg V + E lg V) = O ((V + E) lg V).
 
-2.2 Detalhes da ImplementaÁ„o
+2.2 Detalhes da Implementa√ß√£o
 
-As entradas que devem ser dadas ao se chamar tal Algoritmo a partir do console s„o:
-	1∫ Origem (String) - Nome do primeiro vertice do caminho;
-	2∫ Destino (String) - Nome do segundo vertice;
-Nossa implementaÁ„o consta de 1 mÈtodos que pode ser encontrado no arquivo src/com/estruturas/Grafo.java na linha 229:
-1∫ "encontrarMenorCaminhoDijkstra" (retorna uma lista do tipo Aresta com todas as arestas do caminho encontrado);
-Funciona da seguinte forma, o mÈtodo recebe dois vÈrtices que devem estar presentes no grafo, sendo assim o vÈrtice da origem do Caminho de Dijkstra È marcado como o primeiro ìatualî e seu atributo dist‚ncia È valorado como ì0î, em seguida todas as dist‚ncias sem ser a desse vÈrtice de origem s„o valoradas com infinito, dado no algoritmo como ì9999î e adicionados em uma lista de vÈrtices ainda n„o visitados. A partir daÌ os vertices entram em um ìwhileî que decrementa a lista dos vÈrtices n„o visitados atÈ que ela esteja vazia, a decrementaÁ„o È feita de forma a encontrar todos os prÛximo vÈrtices do caminho apÛs se calcular as suas respectivas dist‚ncias a partir dos pesos das arestas que est„o entre eles e verificar se È o menor caminho possÌvel, a cada entrada nessa estrutura de repetiÁ„o o vertice tido como ìatualî È alterado pelo prÛximo e cada ìatualî de cada interaÁ„o È o pai do prÛximo ìatualî e filho do anterior. Quando n„o h· mais vÈrtices no grafo que n„o foram visitados, sendo a lista de vÈrtices n„o visitados vazia, o mÈtodo acaba e retorna a lista do menor caminho de Dijkstra entre os dois vÈrtices dados.
+As entradas que devem ser dadas ao se chamar tal Algoritmo a partir do console s√£o:
+	1¬∫ Origem (String) - Nome do primeiro vertice do caminho;
+	2¬∫ Destino (String) - Nome do segundo vertice;
+Nossa implementa√ß√£o consta de 1 m√©todos que pode ser encontrado no arquivo src/com/estruturas/Grafo.java na linha 229:
+1¬∫ "encontrarMenorCaminhoDijkstra" (retorna uma lista do tipo Aresta com todas as arestas do caminho encontrado);
+Funciona da seguinte forma, o m√©todo recebe dois v√©rtices que devem estar presentes no grafo, sendo assim o v√©rtice da origem do Caminho de Dijkstra √© marcado como o primeiro ‚Äúatual‚Äù e seu atributo dist√¢ncia √© valorado como ‚Äú0‚Äù, em seguida todas as dist√¢ncias sem ser a desse v√©rtice de origem s√£o valoradas com infinito, dado no algoritmo como ‚Äú9999‚Äù e adicionados em uma lista de v√©rtices ainda n√£o visitados. A partir da√≠ os vertices entram em um ‚Äúwhile‚Äù que decrementa a lista dos v√©rtices n√£o visitados at√© que ela esteja vazia, a decrementa√ß√£o √© feita de forma a encontrar todos os pr√≥ximo v√©rtices do caminho ap√≥s se calcular as suas respectivas dist√¢ncias a partir dos pesos das arestas que est√£o entre eles e verificar se √© o menor caminho poss√≠vel, a cada entrada nessa estrutura de repeti√ß√£o o vertice tido como ‚Äúatual‚Äù √© alterado pelo pr√≥ximo e cada ‚Äúatual‚Äù de cada intera√ß√£o √© o pai do pr√≥ximo ‚Äúatual‚Äù e filho do anterior. Quando n√£o h√° mais v√©rtices no grafo que n√£o foram visitados, sendo a lista de v√©rtices n√£o visitados vazia, o m√©todo acaba e retorna a lista do menor caminho de Dijkstra entre os dois v√©rtices dados.
 
 
 
 3. Busca em Largura
 
-Uma busca em largura (tambÈm conhecido em inglÍs por Breadth-First Search (BFS)) È um mÈtodo de busca que expande e examina sistematicamente todos os vÈrtices de um grafo direcionado ou n„o-direcionado. O algoritmo garante que nenhum vÈrtice ou aresta seja visitado mais de uma vez. Para isso, utiliza uma fila que garante a ordem de an·lise de cada vÈrtice. A idÈia desse algoritmo È que, dado uma raiz a mesma È analisada e os seus visinhos diretos s„o enfileirados. ApÛs isso, aplicamos os mesmos passos para o prÛximo item da fila, repetindo atÈ que a fila esteja vazia. Uma analogia muito conhecida para demonstrar o funcionamento do algoritmo È pintando os vÈrtices de branco, cinza e preto. Os vÈrtices na cor branca representam os vÈtcies que ainda n„o foram marcados e nem enfileirados, os da cor cinza s„o os vÈrtices que est„o na estrutura fila e os pretos s„o aqueles que j· tiveram todos os seus vÈrtices vizinhos enfileirados e marcados pelo algoritmo.
+Uma busca em largura (tamb√©m conhecido em ingl√™s por Breadth-First Search (BFS)) √© um m√©todo de busca que expande e examina sistematicamente todos os v√©rtices de um grafo direcionado ou n√£o-direcionado. O algoritmo garante que nenhum v√©rtice ou aresta seja visitado mais de uma vez. Para isso, utiliza uma fila que garante a ordem de an√°lise de cada v√©rtice. A id√©ia desse algoritmo √© que, dado uma raiz a mesma √© analisada e os seus visinhos diretos s√£o enfileirados. Ap√≥s isso, aplicamos os mesmos passos para o pr√≥ximo item da fila, repetindo at√© que a fila esteja vazia. Uma analogia muito conhecida para demonstrar o funcionamento do algoritmo √© pintando os v√©rtices de branco, cinza e preto. Os v√©rtices na cor branca representam os v√©tcies que ainda n√£o foram marcados e nem enfileirados, os da cor cinza s√£o os v√©rtices que est√£o na estrutura fila e os pretos s√£o aqueles que j√° tiveram todos os seus v√©rtices vizinhos enfileirados e marcados pelo algoritmo.
 
 3.1 Complexidade do algoritmo
 	
-Considerando um grafo G(V, E) onde V È o conjunto de vÈrtices e E o conjunto das arestas do grafo, o pior caso desse algoritmo representa um custo de  O(|V| + |E|), onde |E| significa o total de todas as arestas, e |V| que significa o n˙mero dos vÈrtices. A caracterÌstica do pior caso acontece quando o algoritmo passa por todas os vÈrtices e todas as arestas do grafo. … preciso perceber que que |V| representa as operaÁıes efetuadas nos vÈrtices, que È sempre constante(normalmente È uma operaÁ„o que verifica se È o vÈrtice procurado, marca como visitado e desenfileira) para cada vÈrtice, e |E| representa as operaÁıes efetuadas em cada aresta (normalmente È a operaÁ„o de pegar o vizinho da aresta "a" do grafo).
+Considerando um grafo G(V, E) onde V √© o conjunto de v√©rtices e E o conjunto das arestas do grafo, o pior caso desse algoritmo representa um custo de  O(|V| + |E|), onde |E| significa o total de todas as arestas, e |V| que significa o n√∫mero dos v√©rtices. A caracter√≠stica do pior caso acontece quando o algoritmo passa por todas os v√©rtices e todas as arestas do grafo. √â preciso perceber que que |V| representa as opera√ß√µes efetuadas nos v√©rtices, que √© sempre constante(normalmente √© uma opera√ß√£o que verifica se √© o v√©rtice procurado, marca como visitado e desenfileira) para cada v√©rtice, e |E| representa as opera√ß√µes efetuadas em cada aresta (normalmente √© a opera√ß√£o de pegar o vizinho da aresta "a" do grafo).
 
-3.2 Detalhes da ImplementaÁ„o
+3.2 Detalhes da Implementa√ß√£o
 	
-	O algoritmo pode ser encontrado no arquivo src/com/estruturas/Grafo.java na linha 418. Nossa implementaÁ„o recebe de entrada um nÛ raiz e o nome do nÛ a ser procurado. O algoritmo retorna qual o caminho efetuado atÈ que o nÛ procurado fosse encontrado. Para garantir que cada vÈrtice e aresta seja visitada apenas uma vez, utilizamos a idÈia de pintar cada nÛ com as cores "branca", "cinza" e "preta", como foi apresentado anteriormente. A fila de processamento foi representada pela vari·vel queue.
+	O algoritmo pode ser encontrado no arquivo src/com/estruturas/Grafo.java na linha 418. Nossa implementa√ß√£o recebe de entrada um n√≥ raiz e o nome do n√≥ a ser procurado. O algoritmo retorna qual o caminho efetuado at√© que o n√≥ procurado fosse encontrado. Para garantir que cada v√©rtice e aresta seja visitada apenas uma vez, utilizamos a id√©ia de pintar cada n√≥ com as cores "branca", "cinza" e "preta", como foi apresentado anteriormente. A fila de processamento foi representada pela vari√°vel queue.
 
 4. Busca em Profundidade
 
-O Algoritmo de Busca em profundidade È usado para realizar uma busca ou travessia numa ·rvore, estrutura de ·rvore ou grafo. Intuitivamente, o algoritmo comeÁa num nÛ raiz (como nosso caso È um grafo tal nÛ È o informado anteriormente pelo usu·rio) e explora tanto quanto possÌvel cada um dos seus ramos. Ao encontrar o fim do caminho ele retrocede para o vÈrtice anterior para avaliar se È possÌvel dele continuar a busca para outro dos seus vizinhos. Tal processo È repetido atÈ que ou o vÈrtice buscado seja encontrado, ou todos os vÈrtices do grafo sejam verificados.
+O Algoritmo de Busca em profundidade √© usado para realizar uma busca ou travessia numa √°rvore, estrutura de √°rvore ou grafo. Intuitivamente, o algoritmo come√ßa num n√≥ raiz (como nosso caso √© um grafo tal n√≥ √© o informado anteriormente pelo usu√°rio) e explora tanto quanto poss√≠vel cada um dos seus ramos. Ao encontrar o fim do caminho ele retrocede para o v√©rtice anterior para avaliar se √© poss√≠vel dele continuar a busca para outro dos seus vizinhos. Tal processo √© repetido at√© que ou o v√©rtice buscado seja encontrado, ou todos os v√©rtices do grafo sejam verificados.
 
 4.1 Complexidade do algoritmo
 
-A complexidade espacial do algoritmo de busca em profundidade È bem menor que a de um algoritmo de busca em largura. J· a complexidade temporal È igual, pois È proporcional ao n˙mero de vÈrtices somado ao n˙mero de arestas dos grafos que eles atravessam. Contudo, quando ocorrem buscas em grafos muito grandes, a busca em profundidade pode n„o terminar, pois o artifÌcio de lembrar quais nÛs foram visitados n„o funciona por falta de espaÁo na memÛria. Analisando tal complexidade temos que o custo total desse algoritmo È O(V + E), sendo V a quantidade de vÈrtices e E a quantidade de arestas, ou seja, a mesma complexidade da Busca em Largura. 
+A complexidade espacial do algoritmo de busca em profundidade √© bem menor que a de um algoritmo de busca em largura. J√° a complexidade temporal √© igual, pois √© proporcional ao n√∫mero de v√©rtices somado ao n√∫mero de arestas dos grafos que eles atravessam. Contudo, quando ocorrem buscas em grafos muito grandes, a busca em profundidade pode n√£o terminar, pois o artif√≠cio de lembrar quais n√≥s foram visitados n√£o funciona por falta de espa√ßo na mem√≥ria. Analisando tal complexidade temos que o custo total desse algoritmo √© O(V + E), sendo V a quantidade de v√©rtices e E a quantidade de arestas, ou seja, a mesma complexidade da Busca em Largura. 
 
-4.2 Detalhes da ImplementaÁ„o
+4.2 Detalhes da Implementa√ß√£o
 
-As entradas que devem ser dadas ao se chamar tal Algoritmo a partir do console s„o:
-	1∫ Origem (String) - Nome do vertice raiz do grafo;
-	2∫ Destino (String) - Nome do vertice buscado;
-Nossa implementaÁ„o consta de 2 mÈtodos que podem ser encontrados no arquivo src/com/estruturas/Grafo.java na linha 340:
-1∫ "buscaEmProfundidade" (metodo que chama a busca recursiva e retorna a arvore da busca em profundidade)
-	2∫ "buscaRecursiva" (metodo recursivo que retorna um booleano como resposta da busca pelo vertice e seta como true os vertices e arestas que estarao na arvore de Busca em Profundidade)
-Funciona da seguinte forma, o sistema manda ao mÈtodo ìbuscaEmProfundidadeî qual o vÈrtice raiz e qual o vÈrtice buscado, ambos informados pelo usu·rio, tal mÈtodo chama o mÈtodo ìbuscaRecursivaî passando os dados que lhes foram entregues, esse mÈtodo vai buscar recursivamente o valor chamando a sÌ prÛprio e entregando como par‚metros o prÛximo valor vizinho da raiz atual como a nova raiz e o valor buscado, sendo que o mÈtodo para se encontrar o vÈrtice buscado ou retorna ao acabar o caminho atual para que seja aplicado novamente a recurs„o para o prÛximo vizinho do vÈrtice anterior. Tal processo retorna um booleano informando se o vÈrtice foi encontrado ou n„o e marca as arestas pelas quais passou como visualizadas, tal marcaÁ„o possibilita ao mÈtodo ìbuscaEmProfundidadeî criar uma lista do tipo Aresta, com todas as arestas que foram utilizadas em tal busca.
+As entradas que devem ser dadas ao se chamar tal Algoritmo a partir do console s√£o:
+	1¬∫ Origem (String) - Nome do vertice raiz do grafo;
+	2¬∫ Destino (String) - Nome do vertice buscado;
+Nossa implementa√ß√£o consta de 2 m√©todos que podem ser encontrados no arquivo src/com/estruturas/Grafo.java na linha 340:
+1¬∫ "buscaEmProfundidade" (metodo que chama a busca recursiva e retorna a arvore da busca em profundidade)
+	2¬∫ "buscaRecursiva" (metodo recursivo que retorna um booleano como resposta da busca pelo vertice e seta como true os vertices e arestas que estarao na arvore de Busca em Profundidade)
+Funciona da seguinte forma, o sistema manda ao m√©todo ‚ÄúbuscaEmProfundidade‚Äù qual o v√©rtice raiz e qual o v√©rtice buscado, ambos informados pelo usu√°rio, tal m√©todo chama o m√©todo ‚ÄúbuscaRecursiva‚Äù passando os dados que lhes foram entregues, esse m√©todo vai buscar recursivamente o valor chamando a s√≠ pr√≥prio e entregando como par√¢metros o pr√≥ximo valor vizinho da raiz atual como a nova raiz e o valor buscado, sendo que o m√©todo para se encontrar o v√©rtice buscado ou retorna ao acabar o caminho atual para que seja aplicado novamente a recurs√£o para o pr√≥ximo vizinho do v√©rtice anterior. Tal processo retorna um booleano informando se o v√©rtice foi encontrado ou n√£o e marca as arestas pelas quais passou como visualizadas, tal marca√ß√£o possibilita ao m√©todo ‚ÄúbuscaEmProfundidade‚Äù criar uma lista do tipo Aresta, com todas as arestas que foram utilizadas em tal busca.
 
-5. OrdenaÁ„o TopolÛgica
+5. Ordena√ß√£o Topol√≥gica
 	
-	O algoritmo de ordenaÁ„o topolÛgica È respons·vel por dar uma ordem linear dos vÈrtices, tal que o critÈrio da ordenaÁ„o È que qualquer vÈrtice que seja filho de um outro vÈrtice, deve est· em uma ordem menor do que o seu vÈrtice "pai". Com isso, È possÌvel perceber que um grafo possui mais do que uma ordem topolÛgica, dado que existem vÈrtices que n„o s„o relacionados. A grande utilidade desse algoritmo È para o desenvolvimento de um escalonador de tarefas, dado que existem algumas tarefas que sÛ podem ser concluÌdas se outras tarefas forem concluÌdas. Caso o grafo G(V, E) contenha ciclos, n„o È possÌvel definir uma ordem topolÛdica.
+	O algoritmo de ordena√ß√£o topol√≥gica √© respons√°vel por dar uma ordem linear dos v√©rtices, tal que o crit√©rio da ordena√ß√£o √© que qualquer v√©rtice que seja filho de um outro v√©rtice, deve est√° em uma ordem menor do que o seu v√©rtice "pai". Com isso, √© poss√≠vel perceber que um grafo possui mais do que uma ordem topol√≥gica, dado que existem v√©rtices que n√£o s√£o relacionados. A grande utilidade desse algoritmo √© para o desenvolvimento de um escalonador de tarefas, dado que existem algumas tarefas que s√≥ podem ser conclu√≠das se outras tarefas forem conclu√≠das. Caso o grafo G(V, E) contenha ciclos, n√£o √© poss√≠vel definir uma ordem topol√≥dica.
 
-5.1 An·lise de complexidade
+5.1 An√°lise de complexidade
  
-	A complexidade do algoritmo de ordenaÁ„o topolÛgica È dada pela complexidade do algoritmo de busca em profundidade que È O(|V| + |E|) como explicado anteriormente. No caso da nossa implementaÁ„o, temos O(|V| + |E|)  para o mÈtodo DFS e O(|V|) para a operaÁ„o de reverter a ordem da lista. com isso a complexidade ainda È O(|V| + |E|) = O(|V| + |E|) + O(|V|).
+	A complexidade do algoritmo de ordena√ß√£o topol√≥gica √© dada pela complexidade do algoritmo de busca em profundidade que √© O(|V| + |E|) como explicado anteriormente. No caso da nossa implementa√ß√£o, temos O(|V| + |E|)  para o m√©todo DFS e O(|V|) para a opera√ß√£o de reverter a ordem da lista. com isso a complexidade ainda √© O(|V| + |E|) = O(|V| + |E|) + O(|V|).
 
-5.2 Detalhes da implementaÁ„o
+5.2 Detalhes da implementa√ß√£o
 	
-A ordem topolÛgica pode ser obtida se executarmos uma busca em profundidade e a cada final de passada nos vÈrtices deve-se adicionar o mesmo no inÌcio de uma lista ligada. Ao final do processamento da busca em profundidade, a ordem topolÛgica estar· formada. Em nossa implementaÁ„o, nÛs criamos o mÈtodo DFS (linha 461) no arquivo src/com/estruturas/Grafo.java para executar a busca em profundidade. Passamos como parametro uma lista, que È usada para adicionar um vÈrtice ao final do processamento de cada vÈrtice. Finalizando o DFS, invertemos a ordem da lista e obtemos a ordem topolÛgica como retorno.
+A ordem topol√≥gica pode ser obtida se executarmos uma busca em profundidade e a cada final de passada nos v√©rtices deve-se adicionar o mesmo no in√≠cio de uma lista ligada. Ao final do processamento da busca em profundidade, a ordem topol√≥gica estar√° formada. Em nossa implementa√ß√£o, n√≥s criamos o m√©todo DFS (linha 461) no arquivo src/com/estruturas/Grafo.java para executar a busca em profundidade. Passamos como parametro uma lista, que √© usada para adicionar um v√©rtice ao final do processamento de cada v√©rtice. Finalizando o DFS, invertemos a ordem da lista e obtemos a ordem topol√≥gica como retorno.
 
 6. Fecho transitivo
 
-	O Algoritmo de Fecho Transitivo aplicado a um Grafo direcional ir· retornar um novo grafo com todas as arestas iniciais e com as arestas que dado que tenha um caminho entre dois vertices do grafo uma aresta entre esses dois vertices È tambÈm adicionada ao Grafo.
+	O Algoritmo de Fecho Transitivo aplicado a um Grafo direcional ir√° retornar um novo grafo com todas as arestas iniciais e com as arestas que dado que tenha um caminho entre dois vertices do grafo uma aresta entre esses dois vertices √© tamb√©m adicionada ao Grafo.
 
-6.1 An·lise de complexidade
+6.1 An√°lise de complexidade
 
-	A complexidade È de O(n3) devido as 3 estruturas de de repetiÁ„o envolvidas no algoritmo para interaÁ„o com os vertices que tem caminhos entre si.
+	A complexidade √© de O(n3) devido as 3 estruturas de de repeti√ß√£o envolvidas no algoritmo para intera√ß√£o com os vertices que tem caminhos entre si.
 
-6.2 Detalhes da ImplementaÁ„o
+6.2 Detalhes da Implementa√ß√£o
 
-Nossa implementaÁ„o consta de 2 mÈtodos que podem ser encontrados no arquivo src/com/estruturas/Grafo.java na linha 386:
-1∫ "fechoTransitivo" (metodo que chama o metodo recursiva em que se busca os vertices que podem ser encontrados a partir do vertice de Origem dado)
-	2∫ "marcaVerticesFechoTransitivo" (metodo recursivo sem retorno que seleciona como visualizado todos os vertices que podem ser vizualizados pelo vertice dado pelo usu·rio)
-Funciona da seguinte forma, para cada vÈrtice do grafo È verificado cada vÈrtice do seu fecho transitivo e uma aresta È adicionada ao Grafo resultante se essa aresta n„o existir ainda em sua lista.
+Nossa implementa√ß√£o consta de 2 m√©todos que podem ser encontrados no arquivo src/com/estruturas/Grafo.java na linha 386:
+1¬∫ "fechoTransitivo" (metodo que chama o metodo recursiva em que se busca os vertices que podem ser encontrados a partir do vertice de Origem dado)
+	2¬∫ "marcaVerticesFechoTransitivo" (metodo recursivo sem retorno que seleciona como visualizado todos os vertices que podem ser vizualizados pelo vertice dado pelo usu√°rio)
+Funciona da seguinte forma, para cada v√©rtice do grafo √© verificado cada v√©rtice do seu fecho transitivo e uma aresta √© adicionada ao Grafo resultante se essa aresta n√£o existir ainda em sua lista.
 
 7. Algoritmo de Warshall
 
-	O algoritmo de Warshall È um algoritmo aplicado a um grafo para calcular a dist‚ncia do caminho mais curto entre todos os vÈrtices de um grafo, dois-a-dois. A entrada desse algoritmo È um grafo G(V, E) e a saÌda dele È uma matriz |V| x |V| que contÈm a menor dist‚ncia ente cada vÈrtice. Nesse caso, essa matriz possui a diagonal zerada, dado que a  dist‚ncia de um vÈrtice para ele mesmo È zero(a n„o ser que exista uma dist‚ncia para o prÛprio vÈrtice no grafo G de entrada).
+	O algoritmo de Warshall √© um algoritmo aplicado a um grafo para calcular a dist√¢ncia do caminho mais curto entre todos os v√©rtices de um grafo, dois-a-dois. A entrada desse algoritmo √© um grafo G(V, E) e a sa√≠da dele √© uma matriz |V| x |V| que cont√©m a menor dist√¢ncia ente cada v√©rtice. Nesse caso, essa matriz possui a diagonal zerada, dado que a  dist√¢ncia de um v√©rtice para ele mesmo √© zero(a n√£o ser que exista uma dist√¢ncia para o pr√≥prio v√©rtice no grafo G de entrada).
 
-7.1 Detalhes da implementaÁ„o
+7.1 Detalhes da implementa√ß√£o
 	
-O algoritmo de Warshall utiliza uma tÈcnica de programaÁ„o din‚mica para calcular a dist‚ncia entre todos os vÈrtices. Nesse caso, a matriz vai sendo criada do baixo pra cima, ou seja, vai se calculando a dist‚ncia gradativamente quando novos vÈrtices vai sendo adicionados no grafo. Para cada novo vÈrtice k, È verificado se o caminho atual entre i, j c·lculado È menor do que um caminho para o outro vÈrtice passando por k. Caso n„o seja menor, a dist‚ncia entre i e j È modificada.
-Nossa implementaÁ„o pode ser encontrada no arquivo src/com/estruturas/Grafos.java na linha 485.
+O algoritmo de Warshall utiliza uma t√©cnica de programa√ß√£o din√¢mica para calcular a dist√¢ncia entre todos os v√©rtices. Nesse caso, a matriz vai sendo criada do baixo pra cima, ou seja, vai se calculando a dist√¢ncia gradativamente quando novos v√©rtices vai sendo adicionados no grafo. Para cada novo v√©rtice k, √© verificado se o caminho atual entre i, j c√°lculado √© menor do que um caminho para o outro v√©rtice passando por k. Caso n√£o seja menor, a dist√¢ncia entre i e j √© modificada.
+Nossa implementa√ß√£o pode ser encontrada no arquivo src/com/estruturas/Grafos.java na linha 485.
 
-7.2 An·lise de complexidade
+7.2 An√°lise de complexidade
 	
-	A complexidade de tempo do algoritmo de Warshall È definida pelos 3 loops aninhados que passam por todos os vÈrtices. Nesse caso, a complexidade desse algoritmo È O(n3). O algoritmo È simples, porÈm pr·tico em algumas entradas de tamanho mÈdio.
+	A complexidade de tempo do algoritmo de Warshall √© definida pelos 3 loops aninhados que passam por todos os v√©rtices. Nesse caso, a complexidade desse algoritmo √© O(n3). O algoritmo √© simples, por√©m pr√°tico em algumas entradas de tamanho m√©dio.
