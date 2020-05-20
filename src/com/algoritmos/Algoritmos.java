@@ -1,150 +1,291 @@
-package com.algoritmos;
+package com.estruturas;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 
-import com.IO.Keyboard;
-import com.estruturas.Aresta;
-import com.estruturas.Grafo;
-import com.estruturas.Vertice;
-
-public class Algoritmos {
+public class Grafo {
 	
-	public static void main(String arg[]) {
+	private ArrayList<Aresta> arestas = new ArrayList<Aresta>();
+	private ArrayList<Vertice> vertices = new ArrayList<Vertice>();
+	private boolean hasCycle = false;
+	
+	public void clearLists(){
+		this.arestas.clear();
+		this.vertices.clear();
+		this.setHasCycle(false);
+	}
 
-		Grafo inicial = new Grafo();
-		Grafo resultado = new Grafo();
+	public boolean isHasCycle() {
+		return hasCycle;
+	}
+
+	public void setHasCycle(boolean hasCycle) {
+		this.hasCycle = hasCycle;
+	}
+
+	public void addAresta(int peso, String origem, String destino){
+		int i,j,k;
 		
-		Aresta arestaAux;
-		Vertice verticeAux1, verticeAux2;
-		int opcao = 5, peso;
-		String origem , destino;
+		//adiciona vertices e retorna posicao
+		i = this.addVertice(origem);
+		j = this.addVertice(destino);
 		
-		while(opcao!=0){
-			System.out.println("1 - Add vertices e aresta");
-			System.out.println("2 - Imprimir Grafo dado");
-			System.out.println("3 - Obter arvore de Kruskal");
-			System.out.println("4 - Obter caminho de Dijkstra");
-			System.out.println("5 - Obter arvore de Busca em Profundidade");
-			System.out.println("6 - Obter Fecho Transitivo do Grafo");
-			System.out.println("7 - Obter arvore de Busca em Largura");
-			System.out.println("8 - Obter Ordenacao Topologica");
-			System.out.println("9 - Obter Matriz do Algoritmo de Warshall");
-			System.out.println("0 - fim");
+		//adiciona aresta na lista
+		Aresta a = new Aresta(peso,
+				this.vertices.get(i),
+				this.vertices.get(j));
+		
+		temCiclo(a);
+		this.arestas.add(a);
+		k = this.arestas.size();
+		
+		//adiciona aresta na lista de arestas incidentes em cada vertice
+		this.vertices.get(i).addIncidentes(this.arestas.get(k-1));
+		this.vertices.get(j).addIncidentes(this.arestas.get(k-1));
+	}
 			
-			opcao = Keyboard.readInt();
-			
-			//dando um reset no grafo de resultado
-			resultado.clearLists();
-			
-			//limpando verificadores booleanos
-			inicial.limparArestaVisitada();
-			inicial.limparVerticeVisitado();
-			
-			switch (opcao){
-			case 1:
-				peso = Keyboard.readInt();
-				origem = Keyboard.readString();
-				destino = Keyboard.readString();
-				inicial.addAresta(peso,origem,destino);
-				
-				inicial.imprimeArvore();
-				break;
-			case 2:
-				inicial.imprimeArvore();
-				break;
-			case 3:
-				//Algoritmo de Kruskal
-				
-				for(int i=0;i<inicial.getArestas().size();i++){
-					//busca aresta com menor peso ainda nao verificado no grafo inicial
-					arestaAux= inicial.menorPeso();
-					//se tal aresta nao formar um ciclo ao ser adicionada, ela eh adicionada a arvore de Kruskal
-					if(!resultado.temCiclo(arestaAux)){
-						resultado.addAresta(arestaAux.getPeso(),
-												arestaAux.getOrigem().getNome(),
-												arestaAux.getDestino().getNome());
+	public void setArestas(ArrayList<Aresta> arestas) {
+		this.clearLists();
+		
+		for (int i=0; i<arestas.size() ; i++)
+			this.addAresta(arestas.get(i).getPeso(), 
+							arestas.get(i).getOrigem().getNome(), 
+							arestas.get(i).getDestino().getNome() );
+	}
+
+	public void setVertices(ArrayList<Vertice> vertices) {
+		this.clearLists();
+		
+		for (int i=0; i<vertices.size() ; i++){
+
+			//se ja existir na lista nao passara daqui
+			if(this.posicaoVertice(vertices.get(i).getNome())==this.vertices.size()){
+				//adicionando as arestas correspondentes a tais vertices
+				for(int j=0; j<vertices.get(i).getIncidentes().size(); j++){
+
+					//se o adicionado for a origem desse seu incidente, e o seu destino estiver na lista de vertices
+					if ( (vertices.get(i).getNome().equals(vertices.get(i).getIncidentes().get(j).getOrigem().getNome())) &&
+							(this.posicaoVertice(vertices.get(i).getIncidentes().get(j).getDestino().getNome())!=this.vertices.size()) ){
+
+						this.addAresta(vertices.get(i).getIncidentes().get(j).getPeso(), 
+										vertices.get(i).getIncidentes().get(j).getOrigem().getNome(), 
+										vertices.get(i).getIncidentes().get(j).getDestino().getNome());
+					
+					//se o adicionado for o destino desse seu incidente, e o sua origem estiver na lista de vertices	
+					}else if ( (vertices.get(i).getNome().equals(vertices.get(i).getIncidentes().get(j).getDestino().getNome())) &&
+							(this.posicaoVertice(vertices.get(i).getIncidentes().get(j).getOrigem().getNome())!=this.vertices.size()) ){
+
+						this.addAresta(vertices.get(i).getIncidentes().get(j).getPeso(), 
+								vertices.get(i).getIncidentes().get(j).getOrigem().getNome(), 
+								vertices.get(i).getIncidentes().get(j).getDestino().getNome());
+						
 					}
 				}
+				this.addVertice(vertices.get(i).getNome());
+			}
+		}
+	}
+
+	public int addVertice(String nome){
+		int i= this.posicaoVertice(nome); 
+		
+		if(i==this.vertices.size()){
+			this.vertices.add(new Vertice(nome));
+			return (this.vertices.size() - 1);
+		}
+		
+		return i;
+	}
+	
+	public void limparVerticesPai(){
+		for(int i=0; i<this.getVertices().size() ;i++)
+			this.getVertices().get(i).setPai(null);
+	}
+	
+	public void limparVerticeVisitado(){
+		for(int i=0; i<this.getVertices().size() ;i++)
+			this.getVertices().get(i).setVisitado(false);
+	}
+	
+	public void limparArestaVisitada(){
+		for(int i=0; i<this.getArestas().size() ;i++)
+			this.getArestas().get(i).setVisitado(false);
+	}
+	
+	public void imprimeArvore(){
+		for (int i=0; i<arestas.size();i++)
+			System.out.print(this.arestas.get(i).getOrigem().getNome() + this.arestas.get(i).getDestino().getNome() + " - " + this.arestas.get(i).getPeso() + " | ");
+		System.out.println();
+	}
+
+	public ArrayList<Vertice> getVertices() {
+		return vertices;
+	}
+	
+	public int posicaoVertice(String nome){
+		int i;
+		
+		for (i=0; i<this.vertices.size() ; i++)
+			if (this.vertices.get(i).getNome().equals(nome))
+				return i;
+		
+		//se nao encontrar retorna o tamanho da lista vertices
+		return this.vertices.size();
+	
+	}
+	
+	public Vertice acharVertice(String nome){
+		return this.vertices.get(this.posicaoVertice(nome));
+	}
+	
+	public Aresta acharAresta(Vertice vet1, Vertice vet2){
+		for(int i=0; i<this.arestas.size();i++){
+			if( ((this.arestas.get(i).getOrigem().getNome().equals(vet1.getNome())) &&
+				(this.arestas.get(i).getDestino().getNome().equals(vet2.getNome()))) ||
+				((this.arestas.get(i).getOrigem().getNome().equals(vet2.getNome())) &&
+				(this.arestas.get(i).getDestino().getNome().equals(vet1.getNome()))) ){
+				return this.arestas.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<Aresta> getArestas() {
+		return arestas;
+	}
+	
+
+	//metodo que informa se ao adicionar certa aresta a arvore que vai receber tera ciclo ou nao
+	public boolean temCiclo(Aresta aresta){
+		
+		Vertice anterior = aresta.getDestino();
+		
+		for(int j=0; j<this.getArestas().size() ;j++){
+			
+			for(int i=0; i<this.getArestas().size() ;i++){
 				
-				resultado.imprimeArvore();
-				break;
-			case 4:
-				//Algoritmo de Dijkstra
-				
-				verticeAux1 = inicial.acharVertice(Keyboard.readString());
-				verticeAux2 = inicial.acharVertice(Keyboard.readString());
-				resultado.setVertices(inicial.encontrarMenorCaminhoDijkstra(verticeAux1, verticeAux2));
-				
-				System.out.println(resultado.getVertices());
-				break;
-				
-			case 5:
-				//Algoritmo de Busca em Profundidade
-				
-				origem = Keyboard.readString();
-				destino = Keyboard.readString();
-				resultado.setArestas(inicial.buscaEmProfundidade(origem, destino));
-				
-				resultado.imprimeArvore();
-				break;
-			case 6:
-				//Algoritmo de Fecho Transitivo
-				
-				//para cada vertice do Grafo
-				for(int i=0;i<inicial.getVertices().size();i++){
-					//para cada vertice do seu fecho transitivo
-					for(int j=0;j<inicial.fechoTransitivo(inicial.getVertices().get(i).getNome()).size();j++){
-						arestaAux = resultado.acharAresta(inicial.getVertices().get(i), inicial.fechoTransitivo(inicial.getVertices().get(i).getNome()).get(j)); 
-						//verifica se uma aresta com esse vertice e o vertice inicial ja existe
-						//se nao existe
-						if(arestaAux==null){
-							//adiciona aresta
-							resultado.addAresta(0,
-									inicial.getVertices().get(i).getNome(),
-									inicial.fechoTransitivo(inicial.getVertices().get(i).getNome()).get(j).getNome() );
+				if ((aresta==this.getArestas().get(i))&&(this.getArestas().get(i).isVisitado()==false))
+					this.getArestas().get(i).setVisitado(true);
+				else if (aresta!=this.getArestas().get(i)){
+					
+					if (anterior.getNome().equals(this.getArestas().get(i).getOrigem().getNome())){
+						
+						if	(aresta.getOrigem().getNome().equals(this.getArestas().get(i).getDestino().getNome())){
+							this.limparArestaVisitada();
+							this.hasCycle = true;
+							return true;
+						}else{
+							anterior = this.getArestas().get(i).getDestino();
+							this.getArestas().get(i).setVisitado(true);
+						}	
+						
+					}else if (anterior.getNome().equals(this.getArestas().get(i).getDestino().getNome())){
+						
+						if	(aresta.getOrigem().getNome().equals(this.getArestas().get(i).getOrigem().getNome())){
+							this.limparArestaVisitada();
+							this.hasCycle = true;
+							return true;
+						}else{
+							anterior = this.getArestas().get(i).getOrigem();
+							this.getArestas().get(i).setVisitado(true);
 						}
 					}
 				}
-				
-				System.out.println(resultado.getArestas());
-				break;
-			case 7:
-				//Algoritmo de Busca em Largura
-				
-				origem = Keyboard.readString();
-				destino = Keyboard.readString();
-				resultado.setArestas(inicial.buscaEmLargura(origem, destino));
-				
-				resultado.imprimeArvore();
-				break;
-			case 8: 
-				//Ordenacao Topologica
-				
-				ArrayList<Vertice> vertices = inicial.topologicalSort();
-				int count = 1;
-				for (Vertice vertice: vertices) {
-					System.out.println(count + " " + vertice.getNome());
-					count++;
-				}
-				break;
-			case 9:
-				//Algoritmo de Warshall
-				
-				int[][] dist = inicial.warshall();
-				for(int i = 0; i < dist.length; i++){
-					for(int j = 0; j < dist.length; j++){
-						System.out.print(dist[i][j] + " ");
-					}
-					System.out.print("\n");
-				}
-				break;
-			case 0:
-				break;
-			default:
-				System.out.println("invalido");
-				break;
 			}
-			
 		}
+		this.limparArestaVisitada();
+		this.hasCycle = false;
+		return false;
 	}
+	
+
+//------------------BUSCA-EM-PROFUNDIDADE----------------------------------
+    
+    //metodo que chama a busca recursiva em profundidade e retorna a arvore da busca em profundidade
+    public	ArrayList<Aresta> buscaEmProfundidade(String raiz, String buscado){
+
+    	ArrayList<Aresta> arvoreProfundidade = new ArrayList<Aresta>(); 
+    	
+    	if(this.buscaRecursiva(raiz, buscado))
+    		System.out.println("Vertice encontrado");
+    	else
+    		System.out.println("Vertice nao encontrado");
+    	
+    	for (int i=0; i<this.arestas.size(); i++){
+    		if(this.arestas.get(i).isVisitado())
+    			arvoreProfundidade.add(this.arestas.get(i));
+    	}
+    	
+    	return arvoreProfundidade;
+    }
+    
+    //metodo recursivo que retorna um booleano como resposta da busca pelo vertice e seta como true os vertices e arestas que estarao na arvore de Busca em Profundidade
+    public boolean buscaRecursiva(String raiz, String buscado){
+		
+    	int posRaiz = this.posicaoVertice(raiz);
+    	
+    	this.vertices.get(posRaiz).setVisitado(true);
+		
+    	if (!raiz.equals(buscado)){
+    		for(int i=0; i<this.vertices.get(posRaiz).getVizinhos().size();i++){
+    			
+    			if (!this.vertices.get(posRaiz).getVizinhos().get(i).isVisitado()){
+	    			//acha aresta entre eles e seta como visitada
+	    			this.acharAresta(this.vertices.get(posRaiz), this.vertices.get(posRaiz).getVizinhos().get(i)).setVisitado(true);
+	    			//continua busca recursivamente
+	    			if (this.buscaRecursiva(this.vertices.get(posRaiz).getVizinhos().get(i).getNome(),buscado))
+	    				return true;
+	    		}
+	    	}
+    	}else{
+    		return true;
+    	}
+    	return false;
+    }
+    
+
+//------------------BUSCA-EM-LARGURA---------------------------------------
+    
+    public	ArrayList<Aresta> buscaEmLargura(String raiz, String buscado){
+
+    	ArrayList<Aresta> arvoreLargura = new ArrayList<Aresta>(); 
+    	for (Vertice v:this.vertices) {
+    		v.setCor("branco");
+    	}
+    	
+    	Vertice v = this.acharVertice(raiz);
+    	v.setCor("cinza");
+    	
+    	LinkedList<Vertice> queue= new LinkedList<Vertice>();
+    	queue.add(v);
+    	boolean achou = false;
+    	while (queue.size() > 0) {
+    		Vertice current = queue.remove();
+    		current.setCor("preto");
+    		if (current.getNome().equals(buscado)) {
+    			achou = true;
+    			break;
+    		}
+    		
+    		for (Vertice visinho:current.getVizinhos()) {
+    			if(visinho.getCor().equals("branco")){
+    				visinho.setCor("cinza");
+    				queue.add(visinho);
+    				arvoreLargura.add(this.acharAresta(current, visinho));
+    			}
+    		}
+    	}
+    	
+    	if (achou) {
+    		System.out.println("Vertice encontrado");
+    	} else {
+    		System.out.println("Vertice nao encontrado");
+    	}
+    	
+    	return arvoreLargura;
+    }
+    
+
 }
+
