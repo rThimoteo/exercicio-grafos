@@ -1,75 +1,58 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package br.com.fatec.grafo;
+package com.estruturas;
 
-/**
- *
- * @author Rodrigo
- */
 public class Aresta {
-    private String rotulo;
-    private Vertice v1;
-    private Vertice v2;
-    private int peso;
 
-    public Aresta(Vertice v1, Vertice v2) {
-	super();
-	this.v1 = v1;
-	this.v2 = v2;
-    }
-    public String getRotulo() {
-        return rotulo;
-    }
-    
-    public void setRotulo(String rotulo) {
-        this.rotulo = rotulo;
-    }
-    
-    public Vertice getV1() {
-        return v1;
-    }
-    
-    public void setV1(Vertice v1) {
-        this.v1 = v1;
-    }
-    
-    public Vertice getV2() {
-        return v2;
-    }
-    
-    public void setV2(Vertice v2) {
-        this.v2 = v2;
-    }
-    
-    public int getPeso() {
-        return peso;
-    }
-    
-    public void setPeso(int peso) {
-        this.peso = peso;
-    }
-    
-    public boolean contemAresta(Vertice v1,Vertice v2){
-        if((this.v1 == v1)&&(this.v2 == v2))
-            return(true);
-        if((this.v1 == v2)&&(this.v2 == v1)) 
-            return(true);
-        return(false);
-    }
-    
-    public boolean contemVertice(Vertice v){
-        if(this.v1 == v) 
-            return(true);
-        if(this.v2 == v) 
-            return(true);
-        return(false);
-    }
+	private double peso;
+	private Vertice origem;
+	private Vertice destino;
+	private boolean visitado = false;
+	
+	
+	public Aresta(double peso, Vertice origem, Vertice destino) {
+		this.setPeso(peso);
+		this.setOrigem(origem);
+		this.setDestino(destino);
+	}
+	
+	public boolean isVisitado() {
+		return visitado;
+	}
+
+	public void setVisitado(boolean visitado) {
+		this.visitado = visitado;
+	}
+
+	public double getPeso() {
+		return peso;
+	}
+
+	public void setPeso(double peso) {
+		this.peso = peso;
+	}
+
+	public Vertice getOrigem() {
+		return origem;
+	}
+
+	public void setOrigem(Vertice origem) {
+		
+		this.origem = origem;
+	}
+
+	public Vertice getDestino() {
+		return destino;
+	}
+
+	public void setDestino(Vertice destino) {
+		
+		this.destino = destino;
+	}
+	
+	@Override
+	public String toString() {
+		String s = " ";
+		s+= this.getOrigem().getNome() + this.getDestino().getNome();
+		return s;
+	}
 
 }
-
-
-
-
