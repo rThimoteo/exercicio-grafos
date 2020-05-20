@@ -16,8 +16,7 @@ public class Algoritmos {
 		
 		Aresta arestaAux;
 		Vertice verticeAux1, verticeAux2;
-		int opcao = 5;
-		double peso = 0;
+		int opcao = 5, peso;
 		String origem , destino;
 		
 		while(opcao!=0){
@@ -25,7 +24,7 @@ public class Algoritmos {
 			System.out.println("2 - Imprimir Grafo dado");
 			System.out.println("3 - Obter arvore de Busca em Profundidade");
 			System.out.println("4 - Obter arvore de Busca em Largura");
-			System.out.println("0 - fim");
+			System.out.println("0 - fim"+"\n");
 			
 			opcao = Keyboard.readInt();
 			
@@ -38,13 +37,11 @@ public class Algoritmos {
 			
 			switch (opcao){
 			case 1:
-				int tipoP = 0;
-				tipoP = Keyboard.readInt();
-				if (tipoP==1)
-					peso = 1;
-				if (tipoP==2)
-					peso=Math.sqrt(2);
+				System.out.print("Coloque o peso: "+"\n");
+				peso = Keyboard.readInt();
+				System.out.print("Coloque o origem: "+"\n");
 				origem = Keyboard.readString();
+				System.out.print("Coloque o Destino: "+"\n");
 				destino = Keyboard.readString();
 				inicial.addAresta(peso,origem,destino);
 				
