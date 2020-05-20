@@ -16,7 +16,8 @@ public class Algoritmos {
 		
 		Aresta arestaAux;
 		Vertice verticeAux1, verticeAux2;
-		int opcao = 5, peso;
+		int opcao = 5;
+		double peso = 0;
 		String origem , destino;
 		
 		while(opcao!=0){
@@ -37,7 +38,12 @@ public class Algoritmos {
 			
 			switch (opcao){
 			case 1:
-				peso = Keyboard.readInt();
+				int tipoP = 0;
+				tipoP = Keyboard.readInt();
+				if (tipoP==1)
+					peso = 1;
+				if (tipoP==2)
+					peso=Math.sqrt(2);
 				origem = Keyboard.readString();
 				destino = Keyboard.readString();
 				inicial.addAresta(peso,origem,destino);
