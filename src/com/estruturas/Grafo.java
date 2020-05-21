@@ -24,34 +24,40 @@ public class Grafo {
 		this.hasCycle = hasCycle;
 	}
 
-	public void addAresta(double peso, String origem, String destino){
+	public void addAresta(double peso, String origem, String destino) throws IndexOutOfBoundsException{
 		int i,j,k;
-		
-		//adiciona vertices e retorna posicao
-		i = this.addVertice(origem);
-		j = this.addVertice(destino);
-		
-		//adiciona aresta na lista
-		Aresta a = new Aresta(peso,
-				this.vertices.get(i),
-				this.vertices.get(j));
-		
-		temCiclo(a);
-		this.arestas.add(a);
-		k = this.arestas.size();
-		
-		//adiciona aresta na lista de arestas incidentes em cada vertice
-		this.vertices.get(i).addIncidentes(this.arestas.get(k-1));
-		this.vertices.get(j).addIncidentes(this.arestas.get(k-1));
+		try {
+			
+			//adiciona vertices e retorna posicao
+			i = this.posicaoVertice(origem);
+			j = this.posicaoVertice(destino);
+				
+			//adiciona aresta na lista
+			Aresta a = new Aresta(peso,
+					this.vertices.get(i),
+					this.vertices.get(j));
+				
+			temCiclo(a);
+			this.arestas.add(a);
+			k = this.arestas.size();
+				
+			//adiciona aresta na lista de arestas incidentes em cada vertice
+			this.vertices.get(i).addIncidentes(this.arestas.get(k-1));
+			this.vertices.get(j).addIncidentes(this.arestas.get(k-1));
+		}catch(IndexOutOfBoundsException ex){
+			System.out.print("\nVértice de origem ou destino não encontrado\n" + ex.getMessage() + "\n\n");
+				
+		}
 	}
+	
 			
 	public void setArestas(ArrayList<Aresta> arestas) {
 		this.clearLists();
 		
 		for (int i=0; i<arestas.size() ; i++)
 			this.addAresta(arestas.get(i).getPeso(), 
-							arestas.get(i).getOrigem().getNome(), 
-							arestas.get(i).getDestino().getNome() );
+				arestas.get(i).getOrigem().getNome(), 
+				arestas.get(i).getDestino().getNome() );
 	}
 
 	public void setVertices(ArrayList<Vertice> vertices) {
@@ -66,19 +72,19 @@ public class Grafo {
 
 					//se o adicionado for a origem desse seu incidente, e o seu destino estiver na lista de vertices
 					if ( (vertices.get(i).getNome().equals(vertices.get(i).getIncidentes().get(j).getOrigem().getNome())) &&
-							(this.posicaoVertice(vertices.get(i).getIncidentes().get(j).getDestino().getNome())!=this.vertices.size()) ){
+						(this.posicaoVertice(vertices.get(i).getIncidentes().get(j).getDestino().getNome())!=this.vertices.size()) ){
 
 						this.addAresta(vertices.get(i).getIncidentes().get(j).getPeso(), 
-										vertices.get(i).getIncidentes().get(j).getOrigem().getNome(), 
-										vertices.get(i).getIncidentes().get(j).getDestino().getNome());
+							vertices.get(i).getIncidentes().get(j).getOrigem().getNome(), 
+							vertices.get(i).getIncidentes().get(j).getDestino().getNome());
 					
 					//se o adicionado for o destino desse seu incidente, e o sua origem estiver na lista de vertices	
 					}else if ( (vertices.get(i).getNome().equals(vertices.get(i).getIncidentes().get(j).getDestino().getNome())) &&
-							(this.posicaoVertice(vertices.get(i).getIncidentes().get(j).getOrigem().getNome())!=this.vertices.size()) ){
+						(this.posicaoVertice(vertices.get(i).getIncidentes().get(j).getOrigem().getNome())!=this.vertices.size()) ){
 
 						this.addAresta(vertices.get(i).getIncidentes().get(j).getPeso(), 
-								vertices.get(i).getIncidentes().get(j).getOrigem().getNome(), 
-								vertices.get(i).getIncidentes().get(j).getDestino().getNome());
+							vertices.get(i).getIncidentes().get(j).getOrigem().getNome(), 
+							vertices.get(i).getIncidentes().get(j).getDestino().getNome());
 						
 					}
 				}
