@@ -51,31 +51,79 @@ public class Algoritmos {
 				
 				if(op>1) {
 					inicial.addVertice("a");
+					int [][] pos = new int [1][1];
+					inicial.acharVertice("a").setPosicao(pos);
+					
 					inicial.addVertice("b");
+					pos = new int [1][2];
+					inicial.acharVertice("b").setPosicao(pos);
+					
 					inicial.addVertice("c");
+					pos = new int [1][3];
+					inicial.acharVertice("c").setPosicao(pos);
+					
 					inicial.addVertice("d");
+					pos = new int [2][1];
+					inicial.acharVertice("d").setPosicao(pos);
+					
 					inicial.addVertice("e");
+					pos = new int [2][2];
+					inicial.acharVertice("e").setPosicao(pos);
+					
 					inicial.addVertice("f");
+					pos = new int [2][3];
+					inicial.acharVertice("f").setPosicao(pos);
 				}
 				if(op>2) {
 					inicial.addVertice("g");
+					int [][] pos = new int [3][1];
+					inicial.acharVertice("g").setPosicao(pos);
+					
 					inicial.addVertice("h");
+					pos = new int [3][2];
+					inicial.acharVertice("h").setPosicao(pos);
+					
 					inicial.addVertice("i");
+					pos = new int [3][3];
+					inicial.acharVertice("i").setPosicao(pos);
 				}
 				if(op>3) {	
 					inicial.addVertice("j");
+					int [][] pos = new int [4][1];
+					inicial.acharVertice("j").setPosicao(pos);
+					
 					inicial.addVertice("k");
+					pos = new int [4][2];
+					inicial.acharVertice("k").setPosicao(pos);
+					
 					inicial.addVertice("l");
+					pos = new int [4][3];
+					inicial.acharVertice("l").setPosicao(pos);
 				}
 				if(op>4) {
 					inicial.addVertice("m");
+					int [][] pos = new int [5][1];
+					inicial.acharVertice("m").setPosicao(pos);
 					inicial.addVertice("n");
+					pos = new int [5][2];
+					inicial.acharVertice("n").setPosicao(pos);
+					
 					inicial.addVertice("o");
+					pos = new int [5][3];
+					inicial.acharVertice("o").setPosicao(pos);
 				}
 				if(op>5){
 					inicial.addVertice("p");
+					int [][] pos = new int [6][1];
+					inicial.acharVertice("p").setPosicao(pos);
+					
 					inicial.addVertice("q");
+					pos = new int [6][2];
+					inicial.acharVertice("q").setPosicao(pos);
+					
 					inicial.addVertice("r");
+					pos = new int [6][3];
+					inicial.acharVertice("r").setPosicao(pos);
 				}
 				inicial.imprimeArvore();
 			break;
