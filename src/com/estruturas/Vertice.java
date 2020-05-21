@@ -10,6 +10,15 @@ public class Vertice implements Comparable<Vertice> {
 	private ArrayList<Vertice> vizinhos = new ArrayList<Vertice>();
 	private boolean visitado = false;
 	private String cor = "branco"; 
+	private int posicao[][];
+	
+	public int[][] getPosicao() {
+        return posicao;
+    }
+
+    public void setPosicao(int[][] posicao) {
+        this.posicao = posicao;
+    }
 	
 	public String getCor() {
 		return cor;
